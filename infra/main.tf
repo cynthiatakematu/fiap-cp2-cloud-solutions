@@ -23,7 +23,6 @@ resource "azurerm_mysql_flexible_server" "mysql" {
   sku_name   = "B_Standard_B1ms"
   version    = "8.0.21"
 
-  zone                   = "3"
 
   storage {
     size_gb = 20
