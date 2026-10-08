@@ -2,6 +2,11 @@ resource "random_string" "suffix" {
   length  = 6
   upper   = false
   special = false
+
+  # Novo sufixo (e novo nome de servidor) a cada troca de região do MySQL
+  keepers = {
+    mysql_location = var.mysql_location
+  }
 }
 
 resource "azurerm_resource_group" "rg" {
