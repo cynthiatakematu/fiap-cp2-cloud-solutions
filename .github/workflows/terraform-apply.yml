@@ -1,0 +1,51 @@
+name: provision-mysql-queimadas
+
+on:
+  workflow_dispatch:
+
+env:
+  TF_VAR_mysql_admin_password: ${{ secrets.MYSQL_ADMIN_PASSWORD }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: infra
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}        
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
+
+      - name: Export Terraform outputs
+        run: |
+          echo "MYSQL_FQDN=$(terraform output -raw mysql_fqdn)" >> $GITHUB_ENV
+          echo "MYSQL_DB=$(terraform output -raw database_name)" >> $GITHUB_ENV
+          echo "MYSQL_ADMIN=$(terraform output -raw mysql_admin_username)" >> $GITHUB_ENV
+          echo "MYSQL_SERVER=$(terraform output -raw mysql_server_name)" >> $GITHUB_ENV
+          echo "RESOURCE_GROUP=$(terraform output -raw resource_group_name)" >> $GITHUB_ENV
