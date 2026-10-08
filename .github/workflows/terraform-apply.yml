@@ -2,9 +2,21 @@ name: provision-mysql-queimadas
 
 on:
   workflow_dispatch:
+    inputs:
+      mysql_location:
+        description: "Região do MySQL Flexible Server"
+        type: choice
+        default: southcentralus
+        options:
+          - southcentralus
+          - mexicocentral
+          - eastus
+          - eastus2
+          - canadacentral
 
 env:
   TF_VAR_mysql_admin_password: ${{ secrets.MYSQL_ADMIN_PASSWORD }}
+  TF_VAR_mysql_location: ${{ inputs.mysql_location }}
 
 permissions:
   id-token: write

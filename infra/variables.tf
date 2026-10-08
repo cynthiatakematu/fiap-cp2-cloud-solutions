@@ -10,6 +10,12 @@ variable "location" {
   default     = "eastus2"
 }
 
+variable "mysql_location" {
+  type        = string
+  description = "Região do MySQL Flexible Server (pode diferir da região do Resource Group)"
+  default     = "southcentralus"
+}
+
 variable "mysql_admin_username" {
   type        = string
   description = "Administrador do MySQL Flexible Server"
