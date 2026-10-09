@@ -13,7 +13,7 @@ variable "location" {
 variable "mysql_location" {
   type        = string
   description = "Região do MySQL Flexible Server (pode diferir da região do Resource Group)"
-  default     = "southcentralus"
+  default     = "mexicocentral"
 }
 
 variable "mysql_admin_username" {

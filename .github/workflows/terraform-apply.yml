@@ -6,7 +6,7 @@ on:
       mysql_location:
         description: "Região do MySQL Flexible Server"
         type: choice
-        default: southcentralus
+        default: mexicocentral
         options:
           - southcentralus
           - mexicocentral
